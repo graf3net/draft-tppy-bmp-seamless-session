@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="1"?>
+<?rfc tocindent="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<rfc category="std" docName="draft-tppy-bmp-seamless-session-01"
+     ipr="trust200902">
+  <front>
+    <title abbrev="BMP Seamless Session">BMP (BGP Monitoring Protocol)
+    Seamless Session</title>
+
+    <author fullname="Thomas Graf" initials="T. " surname="Graf">
+      <organization>Swisscom</organization>
+
+      <address>
+        <postal>
+          <street>Binzring 17</street>
+
+          <city>Zurich</city>
+
+          <code>8045</code>
+
+          <country>Switzerland</country>
+        </postal>
+
+        <email>thomas.graf@swisscom.com</email>
+      </address>
+    </author>
+
+    <author fullname="Paolo Lucente" initials="P." surname="Lucente">
+      <organization>NTT</organization>
+
+      <address>
+        <postal>
+          <street>Siriusdreef 70-72</street>
+
+          <city>Hoofddorp</city>
+
+          <region>WT</region>
+
+          <code>2132</code>
+
+          <country>Netherlands</country>
+        </postal>
+
+        <phone/>
+
+        <facsimile/>
+
+        <email>paolo@ntt.net</email>
+
+        <uri/>
+      </address>
+    </author>
+
+    <author fullname="Pierre Francois" initials="P." surname="Francois">
+      <organization>INSA-Lyon</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <city>Lyon</city>
+
+          <code/>
+
+          <country>France</country>
+        </postal>
+
+        <email>Pierre.Francois@insa-lyon.fr</email>
+      </address>
+    </author>
+
+    <author fullname="Yunan Gu" initials="Y. " surname="Gu">
+      <organization>Huawei</organization>
+
+      <address>
+        <postal>
+          <street>Huawei Bld., No.156 Beiqing Rd.</street>
+
+          <city>Beijing</city>
+
+          <code>100095</code>
+
+          <country>China</country>
+        </postal>
+
+        <email>guyunan@huawei.com</email>
+      </address>
+    </author>
+
+    <date day="20" month="February" year="2021"/>
+
+    <abstract>
+      <t>This document describes a BMP session lifecycle extension to prevent
+      data duplication of re-exporting previously exported metrics when BMP
+      session is re-established. It prevents loss of metrics between BMP
+      session re-establishments to increase overall BMP scalability and
+      reduces the possible loss of metrics to a minimum.</t>
+    </abstract>
+  </front>
+
+  <middle>
+    <section anchor="Introduction" title="Introduction">
+      <t>With the constant increase of BGP paths, the increase of BMP BGP RIB
+      coverage from <xref target="RFC8671">RFC8671</xref> and <xref
+      target="I-D.ietf-grow-bmp-local-rib">draft-ietf-grow-bmp-local-rib</xref>,
+      the addition of new TLV's such as <xref
+      target="I-D.cppy-grow-bmp-path-marking-tlv">draft-cppy-grow-bmp-path-marking-tlv</xref>
+      and <xref
+      target="I-D.xu-grow-bmp-route-policy-attr-trace">draft-xu-grow-bmp-route-policy-attr-trace</xref>,
+      more BGP metrics and metric dimensions are exported from BMP client to
+      server.</t>
+
+      <t>With each BMP session re-establishment, BMP exports the initial BGP
+      RIB with BMP route-monitoring messages as described in section 5 of
+      <xref target="RFC7854">RFC7854</xref>. Regardless if the same metrics
+      where already exported in a previous BMP session or not. This leads to
+      data duplication and unnecessary strain of the BMP client and
+      server.</t>
+
+      <t>Most times in a network operators network, the BMP session is
+      re-established within a short period of time due to connectivity
+      interruption or restart of the BMP server due to maintenance. Even
+      though, most BMP client implementations support a BMP buffer mechanism,
+      metrics are not buffered across BMP session re-establishment, thus
+      leading to a loss of metrics.</t>
+
+      <t>Therefore, the proposed BMP session lifecycle improvement covers</t>
+
+      <t><list style="symbols">
+          <t>Brief loss of connectivity between BMP client and server</t>
+
+          <t>Seamless Maintenance of BMP server</t>
+        </list></t>
+
+      <t>It is based on <xref target="RFC7413">RFC7413, TCP Fast Open</xref>,
+      which allows previously established TCP transport sessions to be
+      re-established more efficiently.</t>
+
+      <t>This draft describes how the BMP application MUST behave during TCP
+      transport re-establishment period in order to prevent metric loss.</t>
+    </section>
+
+    <section anchor="Terminology" title="Terminology">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in BCP 14
+      [RFC2119] [RFC8174] when, and only when, they appear in all capitals, as
+      shown here.</t>
+    </section>
+
+    <section anchor="Definitions" title="Definitions">
+      <t><list hangIndent="5" style="hanging">
+          <t
+          hangText="Brief loss of connectivity between BMP client and server:">Describes
+          a period of time in seconds starting from where the BMP client
+          detects loss of connectivity to the BMP server and tries to
+          re-establish the TCP session.</t>
+
+          <t hangText="Maintenance of BMP server:">Describes a period of time
+          in seconds starting from where the BMP server daemon is restarted
+          for maintenance purposes and BMP client tries to re-establish the
+          TCP session.</t>
+        </list></t>
+    </section>
+
+    <section anchor="Capability" title="BMP Client and Server Capability">
+      <t>To support brief loss of connectivity between BMP client and server,
+      the BMP client and server MUST support TCP Fast Open as described in
+      <xref target="RFC7413">RFC7413</xref>.</t>
+
+      <t>To support seamless maintenance of BMP server, the BMP client and
+      server MUST support TCP Fast Open as described in <xref
+      target="RFC7413">RFC7413</xref> and the restart of the BMP server MUST
+      distinguish between normal and seamless restart, wherever TCP Fast Open
+      cookies are preserved or not.</t>
+    </section>
+
+    <section anchor="Lifecycle" title="Updated BMP Session Lifecycle">
+      <t>Section 3 of <xref target="RFC7413">RFC7413</xref> describes the TCP
+      Fast Open extension in the initial TCP SYN packet and the cookie
+      handling during initial and subsequent re-establishment of the TCP
+      transport session.</t>
+
+      <t>Section 3.3 of <xref target="RFC7854">RFC7854</xref> describes that
+      the BMP session closes with the TCP session. This behavior is extended
+      with a configurable BMP session timeout.</t>
+
+      <t>The BMP session timeout starts counting down under the following
+      conditions:</t>
+
+      <t><list style="symbols">
+          <t>Configured value is bigger than 0</t>
+
+          <t>Current TCP session was established with Fast Open extension and
+          cookie has been saved</t>
+
+          <t>BMP buffer is not full</t>
+
+          <t>TCP session is going to be terminated</t>
+        </list></t>
+
+      <t>The default BMP session timeout is 60 seconds.</t>
+
+      <t>While the time is counting down, all the BMP messages, regardless of
+      message type, MUST be buffered. At this stage, the BMP session is still
+      considered to be alive.</t>
+
+      <t>When TCP session is re-established with TCP Fast Open extension and
+      cookie is identically to previous TCP session, the BMP session remain
+      alive, BMP buffer is being exported and normal operation continues.</t>
+
+      <t>When TCP session is re-established without TCP Fast Open extension or
+      with TCP Fast Open extension but cookie is not identically to previous
+      TCP session, the BMP session is considered terminated and starts with a
+      new BMP initiation message.</t>
+
+      <t>When TCP session is not re-established within configured BMP timeout,
+      than BMP buffer is discarded and BMP session is considered
+      terminated.</t>
+
+      <t>When BMP buffer is full before TCP session is re-established, than
+      BMP buffer is discarded and BMP session is considered terminated.</t>
+    </section>
+
+    <section anchor="Security" title="Security Considerations">
+      <t>The same security considerations apply as for TCP Fast Open <xref
+      target="RFC7413">RFC7413</xref>.</t>
+    </section>
+
+    <section anchor="Acknowledgements" title="Acknowledgements">
+      <t>I would like to thank Pierre Francois, Paolo Lucente and Yunan Gu for
+      their review and valuable comments.</t>
+    </section>
+  </middle>
+
+  <back>
+    <references title="Normative References">
+      <?rfc include='reference.RFC.7413'?>
+
+      <?rfc include='reference.RFC.7854'?>
+    </references>
+
+    <references title="Informative References">
+      <?rfc include='reference.RFC.8671'?>
+
+      <?rfc include='reference.I-D.ietf-grow-bmp-local-rib'?>
+
+      <?rfc include='reference.I-D.cppy-grow-bmp-path-marking-tlv'?>
+
+      <?rfc include='reference.I-D.xu-grow-bmp-route-policy-attr-trace'?>
+    </references>
+  </back>
+</rfc>

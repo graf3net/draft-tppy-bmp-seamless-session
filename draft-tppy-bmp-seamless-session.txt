@@ -71,8 +71,7 @@ Table of Contents
    4.  BMP Client and Server Capability  . . . . . . . . . . . . . .   3
    5.  Updated BMP Session Lifecycle . . . . . . . . . . . . . . . .   3
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
-   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
 
 1.  Introduction
@@ -104,6 +103,7 @@ Table of Contents
    o  Brief loss of connectivity between BMP client and server
 
    o  Seamless Maintenance of BMP server
+
 
 
 
@@ -211,13 +211,13 @@ Internet-Draft            BMP Seamless Session             February 2021
    The same security considerations apply as for TCP Fast Open RFC7413
    [RFC7413].
 
-7.  Acknowledgements
+7.  References
 
-   I would like to thank Pierre Francois, Paolo Lucente and Yunan Gu for
-   their review and valuable comments.
+7.1.  Normative References
 
-
-
+   [RFC7413]  Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
+              Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
+              <https://www.rfc-editor.org/info/rfc7413>.
 
 
 
@@ -226,20 +226,12 @@ Graf, et al.             Expires August 25, 2021                [Page 4]
 Internet-Draft            BMP Seamless Session             February 2021
 
 
-8.  References
-
-8.1.  Normative References
-
-   [RFC7413]  Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
-              Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
-              <https://www.rfc-editor.org/info/rfc7413>.
-
    [RFC7854]  Scudder, J., Ed., Fernando, R., and S. Stuart, "BGP
               Monitoring Protocol (BMP)", RFC 7854,
               DOI 10.17487/RFC7854, June 2016,
               <https://www.rfc-editor.org/info/rfc7854>.
 
-8.2.  Informative References
+7.2.  Informative References
 
    [I-D.cppy-grow-bmp-path-marking-tlv]
               Cardona, C., Lucente, P., Francois, P., Gu, Y., and T.
@@ -275,13 +267,6 @@ Authors' Addresses
    Email: thomas.graf@swisscom.com
 
 
-
-
-Graf, et al.             Expires August 25, 2021                [Page 5]
-
-Internet-Draft            BMP Seamless Session             February 2021
-
-
    Paolo Lucente
    NTT
    Siriusdreef 70-72
@@ -289,6 +274,12 @@ Internet-Draft            BMP Seamless Session             February 2021
    Netherlands
 
    Email: paolo@ntt.net
+
+
+
+Graf, et al.             Expires August 25, 2021                [Page 5]
+
+Internet-Draft            BMP Seamless Session             February 2021
 
 
    Pierre Francois
@@ -306,6 +297,15 @@ Internet-Draft            BMP Seamless Session             February 2021
    China
 
    Email: guyunan@huawei.com
+
+
+
+
+
+
+
+
+
 
 
 

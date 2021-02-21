@@ -236,11 +236,6 @@
       <t>The same security considerations apply as for TCP Fast Open <xref
       target="RFC7413">RFC7413</xref>.</t>
     </section>
-
-    <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>I would like to thank Pierre Francois, Paolo Lucente and Yunan Gu for
-      their review and valuable comments.</t>
-    </section>
   </middle>
 
   <back>

@@ -19,7 +19,7 @@ Expires: August 25, 2021                                             NTT
 Abstract
 
    This document describes an optional BMP session lifecycle extension
-   to prevent data duplication of previously exported messages when BMP
+   to prevent data duplication of previously exported messages when TCP
    session is re-established.  It prevents loss of messages between TCP
    session re-establishments and increase overall BMP scalability.
 

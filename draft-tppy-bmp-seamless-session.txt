@@ -5,12 +5,12 @@
 Network Working Group                                            T. Graf
 Internet-Draft                                                  Swisscom
 Intended status: Standards Track                              P. Lucente
-Expires: August 24, 2021                                             NTT
+Expires: August 25, 2021                                             NTT
                                                              P. Francois
                                                                INSA-Lyon
                                                                    Y. Gu
                                                                   Huawei
-                                                       February 20, 2021
+                                                       February 21, 2021
 
 
              BMP (BGP Monitoring Protocol) Seamless Session
@@ -18,11 +18,10 @@ Expires: August 24, 2021                                             NTT
 
 Abstract
 
-   This document describes a BMP session lifecycle extension to prevent
-   data duplication of re-exporting previously exported metrics when BMP
-   session is re-established.  It prevents loss of metrics between BMP
-   session re-establishments to increase overall BMP scalability and
-   reduces the possible loss of metrics to a minimum.
+   This document describes an optional BMP session lifecycle extension
+   to prevent data duplication of previously exported messages when BMP
+   session is re-established.  It prevents loss of messages between TCP
+   session re-establishments and increase overall BMP scalability.
 
 Status of This Memo
 
@@ -39,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 24, 2021.
+   This Internet-Draft will expire on August 25, 2021.
 
 Copyright Notice
 
@@ -50,15 +49,15 @@ Copyright Notice
    Provisions Relating to IETF Documents
    (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
 
 
 
-Graf, et al.             Expires August 24, 2021                [Page 1]
+Graf, et al.             Expires August 25, 2021                [Page 1]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
 
-   carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
@@ -83,12 +82,13 @@ Table of Contents
    [I-D.ietf-grow-bmp-local-rib], the addition of new TLVs such as
    draft-cppy-grow-bmp-path-marking-tlv
    [I-D.cppy-grow-bmp-path-marking-tlv] and draft-xu-grow-bmp-route-
-   policy-attr-trace [I-D.xu-grow-bmp-route-policy-attr-trace], more BGP
-   metrics and metric dimensions are exported from BMP client to server.
+   policy-attr-trace [I-D.xu-grow-bmp-route-policy-attr-trace], more BMP
+   messages and BGP contexts, such as peering, route-policy or RIB, are
+   exported from BMP client to server.
 
    With each BMP session re-establishment, clients export the initial
    BGP RIB via BMP route-monitoring messages as described in section 5
-   of RFC7854 [RFC7854].  Regardless if the same metrics were already
+   of RFC7854 [RFC7854].  Regardless if the same messages were already
    exported in a previous BMP session or not.  This leads to data
    duplication and unnecessary strain of the BMP client and server.
 
@@ -96,8 +96,8 @@ Table of Contents
    short period of time due to connectivity interruption between BMP
    client and server or restart of the BMP server due to maintenance.
    Even though most BMP client implementations support a BMP buffering
-   mechanism, metrics are not buffered across BMP session re-
-   establishment, thus leading to a loss of metrics.
+   mechanism, messages are not buffered across BMP session re-
+   establishment, thus leading to a loss of messages.
 
    Therefore, the proposed BMP session lifecycle improvement covers
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Graf, et al.             Expires August 24, 2021                [Page 2]
+Graf, et al.             Expires August 25, 2021                [Page 2]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -165,7 +165,7 @@ Internet-Draft            BMP Seamless Session             February 2021
 
 
 
-Graf, et al.             Expires August 24, 2021                [Page 3]
+Graf, et al.             Expires August 25, 2021                [Page 3]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -221,7 +221,7 @@ Internet-Draft            BMP Seamless Session             February 2021
 
 
 
-Graf, et al.             Expires August 24, 2021                [Page 4]
+Graf, et al.             Expires August 25, 2021                [Page 4]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -277,7 +277,7 @@ Authors' Addresses
 
 
 
-Graf, et al.             Expires August 24, 2021                [Page 5]
+Graf, et al.             Expires August 25, 2021                [Page 5]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -333,4 +333,4 @@ Internet-Draft            BMP Seamless Session             February 2021
 
 
 
-Graf, et al.             Expires August 24, 2021                [Page 6]
+Graf, et al.             Expires August 25, 2021                [Page 6]

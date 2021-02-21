@@ -71,8 +71,9 @@ Table of Contents
    4.  BMP Client and Server Capability  . . . . . . . . . . . . . .   3
    5.  Updated BMP Session Lifecycle . . . . . . . . . . . . . . . .   3
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
+   7.  Operational Considerations  . . . . . . . . . . . . . . . . .   4
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
 
@@ -103,7 +104,6 @@ Table of Contents
    o  Brief loss of connectivity between BMP client and server
 
    o  Seamless Maintenance of BMP server
-
 
 
 
@@ -211,13 +211,13 @@ Internet-Draft            BMP Seamless Session             February 2021
    The same security considerations apply as for TCP Fast Open RFC7413
    [RFC7413].
 
-7.  References
+7.  Operational Considerations
 
-7.1.  Normative References
-
-   [RFC7413]  Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
-              Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
-              <https://www.rfc-editor.org/info/rfc7413>.
+   From the perspective of the BMP server, the TCP Fast Open mechanism
+   is rather transparent since it is entirely handled by the operating
+   system kernel: this also means a BMP Server application can't
+   determine if the TCP session was established with SYN Cookies or
+   without them.
 
 
 
@@ -226,12 +226,31 @@ Graf, et al.             Expires August 25, 2021                [Page 4]
 Internet-Draft            BMP Seamless Session             February 2021
 
 
+   Upon terminating the existing BMP session(s), the BMP server should
+   dump to persistent storage the BGP RIBs currently in memory.  In
+   terms of encoding, MRT format could be used for the task (ie. draft-
+   petrie-grow-mrt-bmp)
+
+   At restart, the BMP server should first restore the content of BGP
+   RIBs from persistent storage before accepting any incoming connection
+   from BMP clients.  Only once this process is finished, connections
+   can then be accepted again so that messages buffered by BMP clients
+   are applied to the last known BGP RIBs upon termination.
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC7413]  Cheng, Y., Chu, J., Radhakrishnan, S., and A. Jain, "TCP
+              Fast Open", RFC 7413, DOI 10.17487/RFC7413, December 2014,
+              <https://www.rfc-editor.org/info/rfc7413>.
+
    [RFC7854]  Scudder, J., Ed., Fernando, R., and S. Stuart, "BGP
               Monitoring Protocol (BMP)", RFC 7854,
               DOI 10.17487/RFC7854, June 2016,
               <https://www.rfc-editor.org/info/rfc7854>.
 
-7.2.  Informative References
+8.2.  Informative References
 
    [I-D.cppy-grow-bmp-path-marking-tlv]
               Cardona, C., Lucente, P., Francois, P., Gu, Y., and T.
@@ -256,6 +275,13 @@ Internet-Draft            BMP Seamless Session             February 2021
               Protocol (BMP)", RFC 8671, DOI 10.17487/RFC8671, November
               2019, <https://www.rfc-editor.org/info/rfc8671>.
 
+
+
+Graf, et al.             Expires August 25, 2021                [Page 5]
+
+Internet-Draft            BMP Seamless Session             February 2021
+
+
 Authors' Addresses
 
    Thomas Graf
@@ -276,12 +302,6 @@ Authors' Addresses
    Email: paolo@ntt.net
 
 
-
-Graf, et al.             Expires August 25, 2021                [Page 5]
-
-Internet-Draft            BMP Seamless Session             February 2021
-
-
    Pierre Francois
    INSA-Lyon
    Lyon
@@ -297,26 +317,6 @@ Internet-Draft            BMP Seamless Session             February 2021
    China
 
    Email: guyunan@huawei.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

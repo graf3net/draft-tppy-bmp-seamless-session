@@ -96,14 +96,13 @@
       </address>
     </author>
 
-    <date day="20" month="February" year="2021"/>
+    <date day="21" month="February" year="2021"/>
 
     <abstract>
-      <t>This document describes a BMP session lifecycle extension to prevent
-      data duplication of re-exporting previously exported metrics when BMP
-      session is re-established. It prevents loss of metrics between BMP
-      session re-establishments to increase overall BMP scalability and
-      reduces the possible loss of metrics to a minimum.</t>
+      <t>This document describes an optional BMP session lifecycle extension
+      to prevent data duplication of previously exported messages when TCP
+      session is re-established. It prevents loss of messages between TCP
+      session re-establishments and increase overall BMP scalability.</t>
     </abstract>
   </front>
 
@@ -116,22 +115,22 @@
       target="I-D.cppy-grow-bmp-path-marking-tlv">draft-cppy-grow-bmp-path-marking-tlv</xref>
       and <xref
       target="I-D.xu-grow-bmp-route-policy-attr-trace">draft-xu-grow-bmp-route-policy-attr-trace</xref>,
-      more BGP metrics and metric dimensions are exported from BMP client to
-      server.</t>
+      more BMP messages and BGP contexts, such as peering, route-policy or
+      RIB, are exported from BMP client to server.</t>
 
       <t>With each BMP session re-establishment, clients export the initial
       BGP RIB via BMP route-monitoring messages as described in section 5 of
-      <xref target="RFC7854">RFC7854</xref>. Regardless if the same metrics
+      <xref target="RFC7854">RFC7854</xref>. Regardless if the same messages
       were already exported in a previous BMP session or not. This leads to
       data duplication and unnecessary strain of the BMP client and
       server.</t>
 
       <t>In a network most times BMP sessions are re-established within a
-      short period of time due to connectivity interruption between BMP
-      client and server or restart of the BMP server due to maintenance.
-      Even though most BMP client implementations support a BMP buffering
-      mechanism, metrics are not buffered across BMP session re-establishment,
-      thus leading to a loss of metrics.</t>
+      short period of time due to connectivity interruption between BMP client
+      and server or restart of the BMP server due to maintenance. Even though
+      most BMP client implementations support a BMP buffering mechanism,
+      messages are not buffered across BMP session re-establishment, thus
+      leading to a loss of messages.</t>
 
       <t>Therefore, the proposed BMP session lifecycle improvement covers</t>
 
@@ -159,15 +158,16 @@
 
     <section anchor="Definitions" title="Definitions">
       <t><list hangIndent="5" style="hanging">
-          <t hangText="Brief loss of connectivity between BMP client and server:">
-	  Describes a period of time, in seconds, starting from the point in time
-	  in which the BMP client detects loss of connectivity to the BMP server
-	  and tries to re-establish the TCP session.</t>
+          <t
+          hangText="Brief loss of connectivity between BMP client and server:">Describes
+          a period of time, in seconds, starting from the point in time in
+          which the BMP client detects loss of connectivity to the BMP server
+          and tries to re-establish the TCP session.</t>
 
           <t hangText="Maintenance of BMP server:">Describes a period of time,
           in seconds, starting from when the BMP server daemon is restarted
-          for maintenance purposes and the BMP client tries to re-establish the
-          TCP session.</t>
+          for maintenance purposes and the BMP client tries to re-establish
+          the TCP session.</t>
         </list></t>
     </section>
 
@@ -214,31 +214,27 @@
       considered to be alive.</t>
 
       <t>When a TCP session is re-established with TCP Fast Open extension and
-      the cookie is identical to the previous TCP session with the same BMP peer,
-      the BMP session remains alive, BMP buffer is exported and normal operation
-      continues.</t>
+      the cookie is identical to the previous TCP session with the same BMP
+      peer, the BMP session remains alive, BMP buffer is exported and normal
+      operation continues.</t>
 
-      <t>When a TCP session is re-established without TCP Fast Open extension or
-      with TCP Fast Open extension but the cookie is not identical to the previous
-      TCP session with the same BMP peer, the BMP session is considered terminated
-      and starts with a new BMP Initiation message.</t>
+      <t>When a TCP session is re-established without TCP Fast Open extension
+      or with TCP Fast Open extension but the cookie is not identical to the
+      previous TCP session with the same BMP peer, the BMP session is
+      considered terminated and starts with a new BMP Initiation message.</t>
 
-      <t>When a TCP session is not re-established within the configured timeout,
-      then the BMP buffer is discarded and the BMP session is considered
-      terminated.</t>
+      <t>When a TCP session is not re-established within the configured
+      timeout, then the BMP buffer is discarded and the BMP session is
+      considered terminated.</t>
 
       <t>When the BMP buffer is full before the TCP session is re-established,
-      then the BMP buffer is discarded and the BMP session is considered terminated.</t>
+      then the BMP buffer is discarded and the BMP session is considered
+      terminated.</t>
     </section>
 
     <section anchor="Security" title="Security Considerations">
       <t>The same security considerations apply as for TCP Fast Open <xref
       target="RFC7413">RFC7413</xref>.</t>
-    </section>
-
-    <section anchor="Acknowledgements" title="Acknowledgements">
-      <t>I would like to thank Pierre Francois, Paolo Lucente and Yunan Gu for
-      their review and valuable comments.</t>
     </section>
   </middle>
 

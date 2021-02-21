@@ -80,22 +80,22 @@ Table of Contents
 
    With the constant increase of BGP paths, the increase of BMP BGP RIB
    coverage from RFC8671 [RFC8671] and draft-ietf-grow-bmp-local-rib
-   [I-D.ietf-grow-bmp-local-rib], the addition of new TLV's such as
+   [I-D.ietf-grow-bmp-local-rib], the addition of new TLVs such as
    draft-cppy-grow-bmp-path-marking-tlv
    [I-D.cppy-grow-bmp-path-marking-tlv] and draft-xu-grow-bmp-route-
    policy-attr-trace [I-D.xu-grow-bmp-route-policy-attr-trace], more BGP
    metrics and metric dimensions are exported from BMP client to server.
 
-   With each BMP session re-establishment, BMP exports the initial BGP
-   RIB with BMP route-monitoring messages as described in section 5 of
-   RFC7854 [RFC7854].  Regardless if the same metrics where already
+   With each BMP session re-establishment, clients export the initial
+   BGP RIB via BMP route-monitoring messages as described in section 5
+   of RFC7854 [RFC7854].  Regardless if the same metrics were already
    exported in a previous BMP session or not.  This leads to data
    duplication and unnecessary strain of the BMP client and server.
 
-   Most times in a network operators network, the BMP session is re-
-   established within a short period of time due to connectivity
-   interruption or restart of the BMP server due to maintenance.  Even
-   though, most BMP client implementations support a BMP buffer
+   In a network most times BMP sessions are re-established within a
+   short period of time due to connectivity interruption between BMP
+   client and server or restart of the BMP server due to maintenance.
+   Even though most BMP client implementations support a BMP buffering
    mechanism, metrics are not buffered across BMP session re-
    establishment, thus leading to a loss of metrics.
 
@@ -132,14 +132,14 @@ Internet-Draft            BMP Seamless Session             February 2021
 3.  Definitions
 
    Brief loss of connectivity between BMP client and server:  Describes
-        a period of time in seconds starting from where the BMP client
-        detects loss of connectivity to the BMP server and tries to re-
-        establish the TCP session.
+        a period of time, in seconds, starting from the point in time in
+        which the BMP client detects loss of connectivity to the BMP
+        server and tries to re-establish the TCP session.
 
-   Maintenance of BMP server:  Describes a period of time in seconds
-        starting from where the BMP server daemon is restarted for
-        maintenance purposes and BMP client tries to re-establish the
-        TCP session.
+   Maintenance of BMP server:  Describes a period of time, in seconds,
+        starting from when the BMP server daemon is restarted for
+        maintenance purposes and the BMP client tries to re-establish
+        the TCP session.
 
 4.  BMP Client and Server Capability
 
@@ -147,7 +147,7 @@ Internet-Draft            BMP Seamless Session             February 2021
    the BMP client and server MUST support TCP Fast Open as described in
    RFC7413 [RFC7413].
 
-   To support seamless maintenance of BMP server, the BMP client and
+   To support seamless maintenance of a BMP server, the BMP client and
    server MUST support TCP Fast Open as described in RFC7413 [RFC7413]
    and the restart of the BMP server MUST distinguish between normal and
    seamless restart, wherever TCP Fast Open cookies are preserved or
@@ -188,21 +188,23 @@ Internet-Draft            BMP Seamless Session             February 2021
    message type, MUST be buffered.  At this stage, the BMP session is
    still considered to be alive.
 
-   When TCP session is re-established with TCP Fast Open extension and
-   cookie is identically to previous TCP session, the BMP session remain
-   alive, BMP buffer is being exported and normal operation continues.
+   When a TCP session is re-established with TCP Fast Open extension and
+   the cookie is identical to the previous TCP session with the same BMP
+   peer, the BMP session remains alive, BMP buffer is exported and
+   normal operation continues.
 
-   When TCP session is re-established without TCP Fast Open extension or
-   with TCP Fast Open extension but cookie is not identically to
-   previous TCP session, the BMP session is considered terminated and
-   starts with a new BMP initiation message.
+   When a TCP session is re-established without TCP Fast Open extension
+   or with TCP Fast Open extension but the cookie is not identical to
+   the previous TCP session with the same BMP peer, the BMP session is
+   considered terminated and starts with a new BMP Initiation message.
 
-   When TCP session is not re-established within configured BMP timeout,
-   than BMP buffer is discarded and BMP session is considered
+   When a TCP session is not re-established within the configured
+   timeout, then the BMP buffer is discarded and the BMP session is
+   considered terminated.
+
+   When the BMP buffer is full before the TCP session is re-established,
+   then the BMP buffer is discarded and the BMP session is considered
    terminated.
-
-   When BMP buffer is full before TCP session is re-established, than
-   BMP buffer is discarded and BMP session is considered terminated.
 
 6.  Security Considerations
 
@@ -213,8 +215,6 @@ Internet-Draft            BMP Seamless Session             February 2021
 
    I would like to thank Pierre Francois, Paolo Lucente and Yunan Gu for
    their review and valuable comments.
-
-
 
 
 

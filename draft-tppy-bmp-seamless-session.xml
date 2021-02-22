@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="std" docName="draft-tppy-bmp-seamless-session-01"
+<rfc category="std" docName="draft-tppy-bmp-seamless-session-00"
      ipr="trust200902">
   <front>
     <title abbrev="BMP Seamless Session">BMP (BGP Monitoring Protocol)
@@ -96,7 +96,7 @@
       </address>
     </author>
 
-    <date day="21" month="February" year="2021"/>
+    <date day="22" month="February" year="2021"/>
 
     <abstract>
       <t>This document describes an optional BMP session lifecycle extension
@@ -239,19 +239,20 @@
 
     <section anchor="Operations" title="Operational Considerations">
       <t>From the perspective of the BMP server, the TCP Fast Open mechanism
-	 is rather transparent since it is entirely handled by the operating
-	 system kernel: this also means a BMP Server application can't determine
-	 if the TCP session was established with SYN Cookies or without them.</t>
+      is rather transparent since it is entirely handled by the operating
+      system kernel: this also means a BMP Server application can't determine
+      if the TCP session was established with SYN Cookies or without them.</t>
 
       <t>Upon terminating the existing BMP session(s), the BMP server should
-	 dump to persistent storage the BGP RIBs currently in memory. In terms
-	 of encoding, MRT format could be used for the task (ie. draft-petrie-grow-mrt-bmp)</t>
+      dump to persistent storage the BGP RIBs currently in memory. In terms of
+      encoding, MRT format could be used for the task (ie.
+      draft-petrie-grow-mrt-bmp)</t>
 
-      <t>At restart, the BMP server should first restore the content of BGP RIBs
-	 from persistent storage before accepting any incoming connection from
-	 BMP clients. Only once this process is finished, connections can then be
-	 accepted again so that messages buffered by BMP clients are applied to
-	 the last known BGP RIBs upon termination.</t>
+      <t>At restart, the BMP server should first restore the content of BGP
+      RIBs from persistent storage before accepting any incoming connection
+      from BMP clients. Only once this process is finished, connections can
+      then be accepted again so that messages buffered by BMP clients are
+      applied to the last known BGP RIBs upon termination.</t>
     </section>
   </middle>
 

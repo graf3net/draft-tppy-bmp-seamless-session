@@ -5,16 +5,16 @@
 Network Working Group                                            T. Graf
 Internet-Draft                                                  Swisscom
 Intended status: Standards Track                              P. Lucente
-Expires: August 25, 2021                                             NTT
+Expires: August 26, 2021                                             NTT
                                                              P. Francois
                                                                INSA-Lyon
                                                                    Y. Gu
                                                                   Huawei
-                                                       February 21, 2021
+                                                       February 22, 2021
 
 
              BMP (BGP Monitoring Protocol) Seamless Session
-                   draft-tppy-bmp-seamless-session-01
+                   draft-tppy-bmp-seamless-session-00
 
 Abstract
 
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 25, 2021.
+   This Internet-Draft will expire on August 26, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Graf, et al.             Expires August 25, 2021                [Page 1]
+Graf, et al.             Expires August 26, 2021                [Page 1]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Graf, et al.             Expires August 25, 2021                [Page 2]
+Graf, et al.             Expires August 26, 2021                [Page 2]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -165,7 +165,7 @@ Internet-Draft            BMP Seamless Session             February 2021
 
 
 
-Graf, et al.             Expires August 25, 2021                [Page 3]
+Graf, et al.             Expires August 26, 2021                [Page 3]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -221,14 +221,14 @@ Internet-Draft            BMP Seamless Session             February 2021
 
 
 
-Graf, et al.             Expires August 25, 2021                [Page 4]
+Graf, et al.             Expires August 26, 2021                [Page 4]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
 
    Upon terminating the existing BMP session(s), the BMP server should
    dump to persistent storage the BGP RIBs currently in memory.  In
-   terms of encoding, MRT format could be used for the task (ie. draft-
+   terms of encoding, MRT format could be used for the task (ie.  draft-
    petrie-grow-mrt-bmp)
 
    At restart, the BMP server should first restore the content of BGP
@@ -277,7 +277,7 @@ Internet-Draft            BMP Seamless Session             February 2021
 
 
 
-Graf, et al.             Expires August 25, 2021                [Page 5]
+Graf, et al.             Expires August 26, 2021                [Page 5]
 
 Internet-Draft            BMP Seamless Session             February 2021
 
@@ -333,4 +333,4 @@ Authors' Addresses
 
 
 
-Graf, et al.             Expires August 25, 2021                [Page 6]
+Graf, et al.             Expires August 26, 2021                [Page 6]
